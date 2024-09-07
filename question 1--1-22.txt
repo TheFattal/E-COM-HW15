@@ -1,0 +1,150 @@
+-- HW15 – 08-09-2024   -   SQL QUERY
+-- Question 1:
+-- 1:
+SELECT COUNT(*) AS israel_wins
+FROM eurovision_winners
+WHERE country = 'Israel';
+
+--2:
+SELECT COUNT(*) AS host_wins
+FROM eurovision_winners
+WHERE country = host_country;
+
+--3:
+SELECT YEAR 
+FROM eurovision_winners
+WHERE country = 'Israel';
+
+--4:
+SELECT e.year, e.country, e.winner, e.host_country, e.song_name, s.song_length_seconds
+FROM eurovision_winners e
+JOIN song_details s ON e.year = s.year
+ORDER BY s.song_length_seconds ASC 
+LIMIT 1;
+
+--5: 
+SELECT *
+FROM eurovision_winners e
+JOIN song_details s ON e.year = s.year;
+
+--6:
+SELECT e.year, e.country, e.winner, e.host_country, e.song_name, s.song_length_seconds, s.solo_performance, s.genre, s.language
+FROM eurovision_winners e
+JOIN song_details s ON e.year = s.year
+WHERE s.solo_performance = TRUE;
+
+--7:
+SELECT COUNT(*) AS ENGLISH_wins
+FROM song_details
+WHERE LANGUAGE = 'English';
+
+--8:
+SELECT AVG(song_length_seconds) AS average_song_length
+FROM song_details;
+
+--9:
+SELECT year
+FROM eurovision_winners
+WHERE song_name = 'Hallelujah';
+
+--10:
+SELECT MIN(e.year) AS first_non_solo_year
+FROM eurovision_winners e
+JOIN song_details s ON e.year = s.year
+WHERE s.solo_performance = FALSE;
+
+--11:
+SELECT MAX(song_length_seconds) AS longest_song_length
+FROM song_details;
+
+--bonus:
+SELECT e.song_name, s.song_length_seconds
+FROM eurovision_winners e
+JOIN song_details s ON e.year = s.year
+WHERE s.song_length_seconds = (
+    SELECT MAX(song_length_seconds)
+    FROM song_details
+);
+
+--12:
+SELECT country, COUNT(*) AS win_count
+FROM eurovision_winners
+GROUP BY country
+ORDER BY win_count DESC
+LIMIT 1;
+
+--13:
+SELECT country, COUNT(*) AS wins
+FROM eurovision_winners
+GROUP BY country
+ORDER BY wins DESC;
+
+--14:
+
+SELECT e.year, e.country, e.winner, e.host_country, e.song_name, s.song_length_seconds, s.solo_performance, s.genre, s.language
+FROM eurovision_winners e
+JOIN song_details s ON e.year = s.year
+WHERE s.language = 'French';
+
+--15:
+
+SELECT MIN(year) AS first_win_year
+FROM eurovision_winners
+WHERE country = 'Israel';
+
+SELECT MAX(year) AS last_win_year
+FROM eurovision_winners
+WHERE country = 'Israel';
+
+-- 16:
+
+SELECT e.song_name, e.country, e.year, s.song_length_seconds
+FROM eurovision_winners e
+JOIN song_details s ON e.year = s.year
+ORDER BY s.song_length_seconds DESC;
+
+-- 17:
+
+SELECT DISTINCT e.country
+FROM eurovision_winners e
+JOIN song_details s ON e.year = s.year
+WHERE s.song_length_seconds > (
+    SELECT AVG(song_length_seconds)
+    FROM song_details
+);
+
+-- 18:
+
+SELECT e.song_name, e.country, e.year, s.song_length_seconds
+FROM eurovision_winners e
+JOIN song_details s ON e.year = s.year
+WHERE s.solo_performance = TRUE
+ORDER BY s.song_length_seconds ASC
+LIMIT 1;
+
+-- 19:
+
+SELECT e.country, AVG(s.song_length_seconds) AS average_length
+FROM eurovision_winners e
+JOIN song_details s ON e.year = s.year
+GROUP BY e.country;
+
+-- 20:
+
+SELECT COUNT(*) AS non_english_wins
+FROM eurovision_winners e
+JOIN song_details s ON e.year = s.year
+WHERE s.language != 'English';
+
+-- 21:
+
+SELECT COUNT(DISTINCT genre) AS num_genres
+FROM song_details;
+
+-- 22:
+
+SELECT winner
+FROM eurovision_winners
+WHERE country = 'Israel'
+ORDER BY year DESC
+LIMIT 1;
